@@ -6,7 +6,7 @@ const destinations = [
         category: "City",
         description: "Experience Kenya's vibrant capital, wildlife, culture, and urban attractions.",
         budget: "Mid-range",
-        image: "assets/images/nairobi.jpeg"
+        image: "assets/images/nairobi.jpg"
     },
     {
         id: 2,
@@ -15,7 +15,7 @@ const destinations = [
         category: "Beach",
         description: "Explore beautiful beaches, historic sites, and the rich Swahili culture of the coast.",
         budget: "Mid-range",
-        image: "assets/images/mombasa.jpeg"
+        image: "assets/images/mombasa.jpg"
     },
     {
         id: 3,
@@ -24,7 +24,7 @@ const destinations = [
         category: "Beach",
         description: "Relax on white sandy beaches and enjoy the warm coastal atmosphere.",
         budget: "Luxury",
-        image: "assets/images/diani.jpeg"
+        image: "assets/images/diani.jpg"
     },
     {
         id: 4,
@@ -33,7 +33,7 @@ const destinations = [
         category: "Nature",
         description: "Enjoy beautiful lakeside scenery, wildlife, and outdoor activities.",
         budget: "Budget",
-        image: "assets/images/naivasha.jpeg"
+        image: "assets/images/naivasha.jpg"
     },
     {
         id: 5,
@@ -42,7 +42,7 @@ const destinations = [
         category: "Nature",
         description: "Discover Lake Nakuru, wildlife, and stunning views of the Great Rift Valley.",
         budget: "Budget",
-        image: "assets/images/nakuru.jpeg"
+        image: "assets/images/nakuru.jpg"
     },
     {
         id: 6,

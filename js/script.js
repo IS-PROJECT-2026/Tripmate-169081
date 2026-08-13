@@ -1,5 +1,8 @@
 const destinationGrid = document.getElementById("destinationGrid");
 const destinationSearch = document.getElementById("destinationSearch");
+const categoryFilter = document.getElementById("categoryFilter");
+const budgetFilter = document.getElementById("budgetFilter");
+
 
 function displayDestinations(destinationList = destinations) {
     destinationGrid.innerHTML = "";
@@ -7,7 +10,7 @@ function displayDestinations(destinationList = destinations) {
     if (destinationList.length === 0) {
         destinationGrid.innerHTML = `
             <p class="no-results">
-                No destinations found. Try a different search.
+                No destinations found. Try a different search or filter.
             </p>
         `;
         return;
@@ -26,6 +29,7 @@ function displayDestinations(destinationList = destinations) {
 
             <div class="destination-info">
                 <h3>${destination.name}</h3>
+
                 <p>${destination.description}</p>
 
                 <div class="destination-meta">
@@ -45,11 +49,13 @@ function displayDestinations(destinationList = destinations) {
     addDetailsListeners();
 }
 
+
 function addDetailsListeners() {
     const buttons = document.querySelectorAll(".details-button");
 
     buttons.forEach(button => {
         button.addEventListener("click", () => {
+
             const destinationId = Number(button.dataset.id);
 
             const destination = destinations.find(
@@ -61,13 +67,15 @@ function addDetailsListeners() {
     });
 }
 
+
 function showDestinationDetails(destination) {
     const modal = document.getElementById("destinationModal");
 
     document.getElementById("modalImage").src = destination.image;
     document.getElementById("modalImage").alt = destination.name;
 
-    document.getElementById("modalTitle").textContent = destination.name;
+    document.getElementById("modalTitle").textContent =
+        destination.name;
 
     document.getElementById("modalCountry").textContent =
         `Country: ${destination.country}`;
@@ -84,23 +92,70 @@ function showDestinationDetails(destination) {
     modal.classList.add("show");
 }
 
+
 function closeDestinationModal() {
     const modal = document.getElementById("destinationModal");
+
     modal.classList.remove("show");
 }
 
-function searchDestinations() {
-    const searchTerm = destinationSearch.value.toLowerCase().trim();
 
-    const filteredDestinations = destinations.filter(destination =>
-        destination.name.toLowerCase().includes(searchTerm) ||
-        destination.country.toLowerCase().includes(searchTerm) ||
-        destination.description.toLowerCase().includes(searchTerm)
-    );
+function filterDestinations() {
+
+    const searchTerm =
+        destinationSearch.value.toLowerCase().trim();
+
+    const selectedCategory =
+        categoryFilter.value;
+
+    const selectedBudget =
+        budgetFilter.value;
+
+
+    const filteredDestinations = destinations.filter(destination => {
+
+        const matchesSearch =
+            destination.name.toLowerCase().includes(searchTerm) ||
+            destination.country.toLowerCase().includes(searchTerm) ||
+            destination.description.toLowerCase().includes(searchTerm);
+
+
+        const matchesCategory =
+            selectedCategory === "all" ||
+            destination.category === selectedCategory;
+
+
+        const matchesBudget =
+            selectedBudget === "all" ||
+            destination.budget === selectedBudget;
+
+
+        return (
+            matchesSearch &&
+            matchesCategory &&
+            matchesBudget
+        );
+    });
+
 
     displayDestinations(filteredDestinations);
 }
 
-destinationSearch.addEventListener("input", searchDestinations);
+
+destinationSearch.addEventListener(
+    "input",
+    filterDestinations
+);
+
+categoryFilter.addEventListener(
+    "change",
+    filterDestinations
+);
+
+budgetFilter.addEventListener(
+    "change",
+    filterDestinations
+);
+
 
 displayDestinations();

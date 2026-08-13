@@ -274,3 +274,45 @@ body {
     width: 100%;
     padding: 30px;
 }
+.destination-search {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 20px 0 30px;
+}
+
+.destination-search input,
+.destination-search select {
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.destination-search input {
+    flex: 1;
+    min-width: 220px;
+}
+
+.destination-search select {
+    min-width: 160px;
+    background: white;
+}
+
+.destination-search input:focus,
+.destination-search select:focus {
+    outline: none;
+    border-color: #333;
+}
+
+@media (max-width: 600px) {
+    .destination-search {
+        flex-direction: column;
+    }
+
+    .destination-search input,
+    .destination-search select {
+        width: 100%;
+    }
+}

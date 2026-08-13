@@ -85,13 +85,29 @@
             <div class="container">
                 <h2>Popular Destinations</h2>
 
-                <div class="destination-search">
+   <div class="destination-search">
+
     <input
         type="text"
         id="destinationSearch"
         placeholder="Search destinations..."
         aria-label="Search destinations"
     >
+
+    <select id="categoryFilter" aria-label="Filter by category">
+        <option value="all">All Categories</option>
+        <option value="City">City</option>
+        <option value="Beach">Beach</option>
+        <option value="Nature">Nature</option>
+    </select>
+
+    <select id="budgetFilter" aria-label="Filter by budget">
+        <option value="all">All Budgets</option>
+        <option value="Budget">Budget</option>
+        <option value="Mid-range">Mid-range</option>
+        <option value="Luxury">Luxury</option>
+    </select>
+
 </div>
 
                 <div class="destination-grid" id="destinationGrid">

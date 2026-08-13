@@ -316,3 +316,113 @@ body {
         width: 100%;
     }
 }
+/* Responsive Layout */
+
+/* Tablets */
+@media (max-width: 900px) {
+
+    .nav-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-content {
+        padding: 60px 20px;
+    }
+
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .destination-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .container {
+        width: 90%;
+    }
+
+    .nav-container {
+        align-items: center;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .hero-content {
+        padding: 50px 15px;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .destination-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .destination-search {
+        flex-direction: column;
+    }
+
+    .destination-search input,
+    .destination-search select {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-image {
+        height: 200px;
+    }
+
+    .modal-info {
+        padding: 18px;
+    }
+}
+
+
+/* Small phones */
+@media (max-width: 400px) {
+
+    .hero-content h1 {
+        font-size: 1.7rem;
+    }
+
+    .hero-button {
+        display: inline-block;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .destination-info {
+        padding: 15px;
+    }
+}

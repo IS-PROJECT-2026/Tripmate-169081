@@ -1,9 +1,19 @@
 const destinationGrid = document.getElementById("destinationGrid");
+const destinationSearch = document.getElementById("destinationSearch");
 
-function displayDestinations() {
+function displayDestinations(destinationList = destinations) {
     destinationGrid.innerHTML = "";
 
-    destinations.forEach(destination => {
+    if (destinationList.length === 0) {
+        destinationGrid.innerHTML = `
+            <p class="no-results">
+                No destinations found. Try a different search.
+            </p>
+        `;
+        return;
+    }
+
+    destinationList.forEach(destination => {
         const card = document.createElement("article");
 
         card.className = "destination-card";
@@ -58,6 +68,7 @@ function showDestinationDetails(destination) {
     document.getElementById("modalImage").alt = destination.name;
 
     document.getElementById("modalTitle").textContent = destination.name;
+
     document.getElementById("modalCountry").textContent =
         `Country: ${destination.country}`;
 
@@ -77,5 +88,19 @@ function closeDestinationModal() {
     const modal = document.getElementById("destinationModal");
     modal.classList.remove("show");
 }
+
+function searchDestinations() {
+    const searchTerm = destinationSearch.value.toLowerCase().trim();
+
+    const filteredDestinations = destinations.filter(destination =>
+        destination.name.toLowerCase().includes(searchTerm) ||
+        destination.country.toLowerCase().includes(searchTerm) ||
+        destination.description.toLowerCase().includes(searchTerm)
+    );
+
+    displayDestinations(filteredDestinations);
+}
+
+destinationSearch.addEventListener("input", searchDestinations);
 
 displayDestinations();

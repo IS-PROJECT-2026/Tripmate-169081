@@ -248,3 +248,29 @@ body {
     font-size: 24px;
     cursor: pointer;
 }
+/* Destination Search */
+
+.destination-search {
+    margin: 20px 0 30px;
+}
+
+.destination-search input {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.destination-search input:focus {
+    outline: none;
+    border-color: #333;
+}
+
+.no-results {
+    text-align: center;
+    width: 100%;
+    padding: 30px;
+}

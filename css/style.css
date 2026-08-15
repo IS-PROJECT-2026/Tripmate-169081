@@ -645,3 +645,81 @@ body {
     color: #777;
     margin-bottom: 1rem;
 }
+/* =====================================================
+   Activity Management
+   ===================================================== */
+
+.activity-list {
+    margin-top: 15px;
+}
+
+.activity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.activity-name {
+    flex: 1;
+    font-weight: 500;
+}
+
+.activity-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-activity-button,
+.delete-activity-button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-activity-button {
+    background-color: #eaf4f4;
+    color: #333;
+}
+
+.delete-activity-button {
+    background-color: #f1dada;
+    color: #333;
+}
+
+.edit-activity-button:hover,
+.delete-activity-button:hover {
+    opacity: 0.8;
+}
+
+.no-activities {
+    color: #777;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* Mobile activity layout */
+
+@media (max-width: 600px) {
+
+    .activity-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .activity-actions {
+        justify-content: flex-end;
+    }
+
+    .edit-activity-button,
+    .delete-activity-button {
+        flex: 1;
+    }
+}

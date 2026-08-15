@@ -505,41 +505,37 @@ function addActivityActionListeners(
     );
 
 
-    // Delete activity
+   // Delete activity
 
-    deleteButton.addEventListener(
-        "click",
-        () => {
+deleteButton.addEventListener(
+    "click",
+    () => {
 
-            const confirmed =
-                confirm(
-                    "Are you sure you want to delete this activity?"
-                );
+        const activityList =
+            activityItem.parentElement;
 
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete this activity?"
+            );
 
-            if (!confirmed) {
-                return;
-            }
-
-
-            activityItem.remove();
-
-
-            const activityList =
-                activityItem.parentElement;
-
-
-            if (
-                activityList &&
-                activityList.children.length === 0
-            ) {
-
-                activityList.innerHTML = `
-                    <p class="no-activities">
-                        No activities added yet.
-                    </p>
-                `;
-            }
+        if (!confirmed) {
+            return;
         }
-    );
+
+        activityItem.remove();
+
+        if (
+            activityList &&
+            activityList.querySelectorAll(".activity-item").length === 0
+        ) {
+
+            activityList.innerHTML = `
+                <p class="no-activities">
+                    No activities added yet.
+                </p>
+            `;
+        }
+    }
+);
 }

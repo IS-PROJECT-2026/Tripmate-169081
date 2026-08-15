@@ -191,6 +191,7 @@ tripForm.addEventListener("submit", function (event) {
     const differenceInDays =
         Math.ceil(differenceInTime / (1000 * 60 * 60 * 24)) + 1;
 
+    generateItinerary(start, differenceInDays);
     tripPreview.innerHTML = `
         <div class="trip-card">
 
@@ -217,3 +218,46 @@ tripForm.addEventListener("submit", function (event) {
 
     tripForm.reset();
 });
+function generateItinerary(startDate, numberOfDays) {
+    const itineraryContainer =
+        document.getElementById("itineraryContainer");
+
+    itineraryContainer.innerHTML = `
+        <div class="itinerary-container"></div>
+    `;
+
+    const itinerary =
+        itineraryContainer.querySelector(".itinerary-container");
+
+    for (let day = 1; day <= numberOfDays; day++) {
+
+        const currentDate = new Date(startDate);
+
+        currentDate.setDate(
+            currentDate.getDate() + (day - 1)
+        );
+
+        const formattedDate =
+            currentDate.toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
+
+        itinerary.innerHTML += `
+            <div class="itinerary-day">
+
+                <h3>Day ${day}</h3>
+
+                <p class="itinerary-date">
+                    ${formattedDate}
+                </p>
+
+                <p>
+                    No activities added yet.
+                </p>
+
+            </div>
+        `;
+    }
+}

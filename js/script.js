@@ -159,3 +159,61 @@ budgetFilter.addEventListener(
 
 
 displayDestinations();
+
+// Trip Creation
+
+const tripForm = document.getElementById("tripForm");
+const tripPreview = document.getElementById("tripPreview");
+const tripMessage = document.getElementById("tripMessage");
+
+tripForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const tripName = document.getElementById("tripName").value.trim();
+    const tripDestination =
+        document.getElementById("tripDestination").value;
+    const startDate =
+        document.getElementById("startDate").value;
+    const endDate =
+        document.getElementById("endDate").value;
+
+    if (new Date(endDate) < new Date(startDate)) {
+        tripMessage.textContent =
+            "End date cannot be before the start date.";
+
+        return;
+    }
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const differenceInTime = end - start;
+    const differenceInDays =
+        Math.ceil(differenceInTime / (1000 * 60 * 60 * 24)) + 1;
+
+    tripPreview.innerHTML = `
+        <div class="trip-card">
+
+            <h3>${tripName}</h3>
+
+            <p>
+                <strong>Destination:</strong>
+                ${tripDestination}
+            </p>
+
+            <p>
+                <strong>Dates:</strong>
+                ${startDate} to ${endDate}
+            </p>
+
+            <p class="trip-duration">
+                Duration: ${differenceInDays} day(s)
+            </p>
+
+        </div>
+    `;
+
+    tripMessage.textContent = "Trip created successfully!";
+
+    tripForm.reset();
+});

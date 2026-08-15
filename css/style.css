@@ -426,3 +426,118 @@ body {
         padding: 15px;
     }
 }
+/* Trip Creation */
+
+.trips-section {
+    padding: 4rem 0;
+    background-color: #ffffff;
+}
+
+.trips-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.trip-form-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+}
+
+.trip-form-container h3 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #ffffff;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #333;
+}
+
+.trip-dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.trip-button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #222;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.trip-button:hover {
+    opacity: 0.85;
+}
+
+.trip-message {
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.trip-preview {
+    max-width: 700px;
+    margin: 2rem auto 0;
+}
+
+.trip-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.trip-card h3 {
+    margin-bottom: 0.75rem;
+}
+
+.trip-card p {
+    margin-bottom: 0.5rem;
+}
+
+.trip-duration {
+    font-weight: bold;
+}
+
+/* Trip Creation Responsive Layout */
+
+@media (max-width: 600px) {
+    .trip-form-container {
+        padding: 1.25rem;
+    }
+
+    .trip-dates {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

@@ -824,3 +824,54 @@ body {
         align-items: flex-start;
     }
 }
+/* Custom Packing Item Management */
+
+.custom-packing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.packing-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-packing-item,
+.remove-packing-item {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-packing-item {
+    background-color: #eaf4f4;
+}
+
+.remove-packing-item {
+    background-color: #f1dada;
+}
+
+.edit-packing-item:hover,
+.remove-packing-item:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+
+    .custom-packing-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .packing-actions {
+        justify-content: flex-end;
+    }
+
+    .edit-packing-item,
+    .remove-packing-item {
+        flex: 1;
+    }
+}

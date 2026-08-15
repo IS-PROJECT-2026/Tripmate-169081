@@ -562,43 +562,109 @@ addPackingItemButton.addEventListener(
             return;
         }
 
-        const listItem =
-            document.createElement("li");
+        addCustomPackingItem(itemName);
 
-        listItem.className = "packing-item";
+        packingItemInput.value = "";
+        packingItemInput.focus();
+    }
+);
 
-        listItem.innerHTML = `
-            <label>
-                <input type="checkbox">
-                <span>${itemName}</span>
-            </label>
+
+function addCustomPackingItem(itemName) {
+
+    const listItem =
+        document.createElement("li");
+
+    listItem.className =
+        "packing-item custom-packing-item";
+
+    listItem.innerHTML = `
+        <label>
+            <input type="checkbox">
+
+            <span class="packing-item-name">
+                ${itemName}
+            </span>
+        </label>
+
+        <div class="packing-actions">
+
+            <button
+                type="button"
+                class="edit-packing-item">
+                Edit
+            </button>
 
             <button
                 type="button"
                 class="remove-packing-item">
                 Remove
             </button>
-        `;
 
-        packingList.appendChild(listItem);
+        </div>
+    `;
 
-        packingItemInput.value = "";
-
-        packingItemInput.focus();
-    }
-);
+    packingList.appendChild(listItem);
+}
 
 
 packingList.addEventListener(
     "click",
     function (event) {
 
+        const packingItem =
+            event.target.closest(".packing-item");
+
+        if (!packingItem) {
+            return;
+        }
+
+
+        // Remove custom item
+
         if (
             event.target.classList.contains(
                 "remove-packing-item"
             )
         ) {
-            event.target.closest(".packing-item").remove();
+
+            packingItem.remove();
+
+            return;
+        }
+
+
+        // Edit custom item
+
+        if (
+            event.target.classList.contains(
+                "edit-packing-item"
+            )
+        ) {
+
+            const itemName =
+                packingItem.querySelector(
+                    ".packing-item-name"
+                );
+
+            const currentName =
+                itemName.textContent.trim();
+
+            const updatedName =
+                prompt(
+                    "Edit packing item:",
+                    currentName
+                );
+
+            if (
+                updatedName === null ||
+                updatedName.trim() === ""
+            ) {
+                return;
+            }
+
+            itemName.textContent =
+                updatedName.trim();
         }
     }
 );

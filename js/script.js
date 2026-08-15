@@ -539,3 +539,66 @@ deleteButton.addEventListener(
     }
 );
 }
+// Packing Checklist
+
+const packingItemInput =
+    document.getElementById("packingItem");
+
+const addPackingItemButton =
+    document.getElementById("addPackingItem");
+
+const packingList =
+    document.getElementById("packingList");
+
+
+addPackingItemButton.addEventListener(
+    "click",
+    function () {
+
+        const itemName =
+            packingItemInput.value.trim();
+
+        if (itemName === "") {
+            return;
+        }
+
+        const listItem =
+            document.createElement("li");
+
+        listItem.className = "packing-item";
+
+        listItem.innerHTML = `
+            <label>
+                <input type="checkbox">
+                <span>${itemName}</span>
+            </label>
+
+            <button
+                type="button"
+                class="remove-packing-item">
+                Remove
+            </button>
+        `;
+
+        packingList.appendChild(listItem);
+
+        packingItemInput.value = "";
+
+        packingItemInput.focus();
+    }
+);
+
+
+packingList.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            event.target.classList.contains(
+                "remove-packing-item"
+            )
+        ) {
+            event.target.closest(".packing-item").remove();
+        }
+    }
+);

@@ -668,3 +668,64 @@ packingList.addEventListener(
         }
     }
 );
+// Trip Budget Calculator
+
+const calculateBudgetButton =
+    document.getElementById("calculateBudget");
+
+const budgetTotal =
+    document.getElementById("budgetTotal");
+
+
+calculateBudgetButton.addEventListener(
+    "click",
+    function () {
+
+        const accommodation =
+            Number(
+                document.getElementById(
+                    "accommodationCost"
+                ).value
+            ) || 0;
+
+        const food =
+            Number(
+                document.getElementById(
+                    "foodCost"
+                ).value
+            ) || 0;
+
+        const transport =
+            Number(
+                document.getElementById(
+                    "transportCost"
+                ).value
+            ) || 0;
+
+        const activities =
+            Number(
+                document.getElementById(
+                    "activitiesCost"
+                ).value
+            ) || 0;
+
+        const other =
+            Number(
+                document.getElementById(
+                    "otherCost"
+                ).value
+            ) || 0;
+
+
+        const total =
+            accommodation +
+            food +
+            transport +
+            activities +
+            other;
+
+
+        budgetTotal.textContent =
+            `KSh ${total.toLocaleString()}`;
+    }
+);

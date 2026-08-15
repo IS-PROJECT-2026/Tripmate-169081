@@ -582,3 +582,66 @@ body {
     border: 1px solid #ddd;
     border-radius: 10px;
 }
+/* Activities */
+
+.add-activity-button {
+    margin-bottom: 1rem;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #222;
+    color: white;
+    cursor: pointer;
+}
+
+.add-activity-button:hover {
+    opacity: 0.85;
+}
+
+.activity-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.activity-form input,
+.activity-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+}
+
+.activity-form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.activity-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.activity-item {
+    background-color: #f1f3f5;
+    border-left: 4px solid #222;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 6px;
+}
+
+.activity-item h4 {
+    margin-bottom: 0.4rem;
+}
+
+.activity-item p {
+    margin-bottom: 0.25rem;
+}
+
+.no-activities {
+    color: #777;
+    margin-bottom: 1rem;
+}

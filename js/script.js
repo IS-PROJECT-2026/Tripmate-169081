@@ -41,9 +41,22 @@ function displayDestinations(destinationList = destinations) {
                     <span>${destination.budget}</span>
                 </div>
 
-                <button class="details-button" data-id="${destination.id}">
-                    View Details
-                </button>
+                <div class="destination-actions">
+
+    <button
+        class="details-button"
+        data-id="${destination.id}">
+        View Details
+    </button>
+
+    <button
+        class="favorite-button"
+        data-id="${destination.id}"
+        type="button">
+        ♡ Favourite
+    </button>
+
+</div>
             </div>
         `;
 
@@ -51,6 +64,7 @@ function displayDestinations(destinationList = destinations) {
     });
 
     addDetailsListeners();
+    addFavouriteListeners();
 }
 
 
@@ -729,3 +743,72 @@ calculateBudgetButton.addEventListener(
             `KSh ${total.toLocaleString()}`;
     }
 );
+// Favourite Destinations
+
+let favouriteDestinations = [];
+
+
+function toggleFavourite(destinationId) {
+
+    const existingIndex =
+        favouriteDestinations.indexOf(destinationId);
+
+    if (existingIndex === -1) {
+
+        favouriteDestinations.push(destinationId);
+
+    } else {
+
+        favouriteDestinations.splice(existingIndex, 1);
+
+    }
+
+    updateFavouriteButtons();
+}
+
+
+function updateFavouriteButtons() {
+
+    const buttons =
+        document.querySelectorAll(".favorite-button");
+
+    buttons.forEach(button => {
+
+        const destinationId =
+            Number(button.dataset.id);
+
+        if (favouriteDestinations.includes(destinationId)) {
+
+            button.textContent = "♥ Favourited";
+            button.classList.add("favourited");
+
+        } else {
+
+            button.textContent = "♡ Favourite";
+            button.classList.remove("favourited");
+
+        }
+
+    });
+}
+
+
+function addFavouriteListeners() {
+
+    const buttons =
+        document.querySelectorAll(".favorite-button");
+
+    buttons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const destinationId =
+                Number(button.dataset.id);
+
+            toggleFavourite(destinationId);
+
+        });
+
+    });
+
+}

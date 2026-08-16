@@ -89,59 +89,50 @@ You must engineer **three merge conflicts**, each triggered by a **different cau
 
 ### Conflict 1 — Full Chronology
 
-**What cause did you use?** [Name the type of conflict cause from the lecture]
+**What cause did you use?** Same-line content conflict — both branches modified the same line differently.
 
 #### Step 1: Generating the Clash
-*Screenshot showing the merge attempt and the conflict warning.*
 
-[PASTE SCREENSHOT OF ATTEMPTED MERGE / TERMINAL WARNING HERE]
+[PASTE YOUR NAVBAR MERGE ATTEMPT SCREENSHOT HERE]
 
-* **Caption:** [Describe which two branches collided and the warning received]
+* **Caption:** The merge attempt produced a conflict because the two branches contained different changes to the same line of the navbar code.
 
 #### Step 2: Inside the Code Editor (Conflict Markers)
-*Screenshot showing the raw, unresolved conflict markers (`<<<<<<< HEAD`, `=======`, `>>>>>>>`) in your editor.*
 
-[PASTE SCREENSHOT OF RAW CONFLICT MARKERS HERE]
+[PASTE YOUR NAVBAR CONFLICT MARKERS SCREENSHOT HERE]
 
-* **Caption:** [Explain what caused the dispute and your reasoning for the final version]
+* **Caption:** Git displayed conflict markers showing the competing versions from the two branches. I reviewed both changes and selected the correct version before removing the conflict markers.
 
 #### Step 3: Resolution & Clean Merge
-*Screenshot of your clean Git history or completed PR showing the conflict was resolved and merged.*
 
-[PASTE SCREENSHOT OF CLEAN RESOLUTION HERE]
+[PASTE YOUR NAVBAR CLEAN RESOLUTION SCREENSHOT HERE]
 
-* **Caption:** [Describe the final state after resolution]
-
----
+* **Caption:** The conflicting navbar changes were resolved, the conflict markers were removed, and the corrected version was successfully committed and merged.
 
 ### Conflict 2 — Different Cause
 
-**What cause did you use?** [Name the type of conflict cause — must be different from Conflict 1]
+**What cause did you use?** Modify/delete conflict
 
-**Why does this cause trigger a conflict?** [1–2 sentences explaining the mechanism]
+**Why does this cause trigger a conflict?** A modify/delete conflict occurs when one branch modifies a file while another branch deletes the same file. Git cannot automatically determine whether the file should be kept with the modification or deleted, so manual resolution is required.
 
-[PASTE SCREENSHOT OF CONFLICT MARKERS FOR CONFLICT 2 HERE]
+[PASTE YOUR MODIFY/DELETE CONFLICT SCREENSHOT HERE]
 
-* **Caption:** [Brief description of the conflicting branches and file]
-
----
+* **Caption:** The `conflict/3-modify` branch modified `conflict-test.txt`, while the `conflict/3-delete` branch deleted the same file, causing Git to report a modify/delete conflict during the merge.
 
 ### Conflict 3 — Different Cause
 
-**What cause did you use?** [Name the type of conflict cause — must be different from Conflicts 1 and 2]
+**What cause did you use?** Rename/rename conflict
 
-**Why does this cause trigger a conflict?** [1–2 sentences explaining the mechanism]
+**Why does this cause trigger a conflict?** A rename/rename conflict occurs when two branches rename the same original file to different filenames. Git cannot automatically determine which new filename should be used, so the conflict must be resolved manually.
 
-[PASTE SCREENSHOT OF CONFLICT MARKERS FOR CONFLICT 3 HERE]
+[PASTE YOUR RENAME/RENAME CONFLICT SCREENSHOT HERE]
 
-* **Caption:** [Brief description of the conflicting branches and file]
+* **Caption:** The `conflict/rename-a` branch renamed `rename-test.txt` to `rename-a.txt`, while the `conflict/rename-b` branch renamed the same file to `rename-b.txt`, producing a rename/rename conflict during the merge.
 
----
-##
 ## 6. Feedback & Evaluation
 
 To help improve this course for future engineering cohorts, please take 2 minutes to fill out the anonymous feedback form. Your honest review helps shape how this program is taught next semester!
-- [ ] **Anonymous Evaluation Form:** [Course & Instructor Evaluation](https://forms.gle/YLybnsyXXErKEg3s9)
+- [Done ] **Anonymous Evaluation Form:** [Course & Instructor Evaluation](https://forms.gle/YLybnsyXXErKEg3s9)
 
 ---
  

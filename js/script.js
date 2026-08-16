@@ -104,6 +104,102 @@ function displayDestinations(destinationList = destinations) {
     addFavouriteListeners();
     updateFavouriteButtons();
 }
+// =====================================================
+// DISPLAY FAVOURITE DESTINATIONS
+// =====================================================
+
+function displayFavouriteDestinations() {
+
+    const favoritesGrid =
+        document.getElementById("favoritesGrid");
+
+    if (!favoritesGrid) {
+        return;
+    }
+
+    const favouriteList =
+        destinations.filter(destination =>
+            favouriteDestinations.includes(destination.id)
+        );
+
+    favoritesGrid.innerHTML = "";
+
+    if (favouriteList.length === 0) {
+
+        favoritesGrid.innerHTML = `
+            <p class="no-results">
+                You haven't added any favourite destinations yet.
+            </p>
+        `;
+
+        return;
+    }
+
+    favouriteList.forEach(destination => {
+
+        const card =
+            document.createElement("article");
+
+        card.className =
+            "destination-card";
+
+        card.innerHTML = `
+            <div class="destination-image">
+                <img
+                    src="${destination.image}"
+                    alt="${destination.name}"
+                >
+            </div>
+
+            <div class="destination-info">
+
+                <h3>${destination.name}</h3>
+
+                <p>
+                    ${destination.description}
+                </p>
+
+                <div class="destination-meta">
+
+                    <span>
+                        ${destination.category}
+                    </span>
+
+                    <span>
+                        ${destination.budget}
+                    </span>
+
+                </div>
+
+                <div class="destination-actions">
+
+                    <button
+                        class="details-button"
+                        data-id="${destination.id}"
+                    >
+                        View Details
+                    </button>
+
+                    <button
+                        class="favorite-button"
+                        data-id="${destination.id}"
+                        type="button"
+                    >
+                        ♥ Favourited
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        favoritesGrid.appendChild(card);
+    });
+
+    addDetailsListeners();
+    addFavouriteListeners();
+    updateFavouriteButtons();
+}
 
 
 // =====================================================
@@ -1019,41 +1115,27 @@ let favouriteDestinations =
 // TOGGLE FAVOURITE
 // =====================================================
 
-function toggleFavourite(
-    destinationId
-) {
+function toggleFavourite(destinationId) {
 
     const existingIndex =
-        favouriteDestinations.indexOf(
-            destinationId
-        );
-
+        favouriteDestinations.indexOf(destinationId);
 
     if (existingIndex === -1) {
 
-        favouriteDestinations.push(
-            destinationId
-        );
+        favouriteDestinations.push(destinationId);
 
     } else {
 
-        favouriteDestinations.splice(
-            existingIndex,
-            1
-        );
+        favouriteDestinations.splice(existingIndex, 1);
     }
-
 
     localStorage.setItem(
         "favouriteDestinations",
-        JSON.stringify(
-            favouriteDestinations
-        )
+        JSON.stringify(favouriteDestinations)
     );
 
-
     updateFavouriteButtons();
-
+    displayFavouriteDestinations();
     updateDashboard();
 }
 
@@ -1109,31 +1191,25 @@ function updateFavouriteButtons() {
 function addFavouriteListeners() {
 
     const buttons =
-        document.querySelectorAll(
-            ".favorite-button"
-        );
-
+        document.querySelectorAll(".favorite-button");
 
     buttons.forEach(button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+        if (button.dataset.listenerAttached === "true") {
+            return;
+        }
 
-                const destinationId =
-                    Number(
-                        button.dataset.id
-                    );
+        button.addEventListener("click", () => {
 
+            const destinationId =
+                Number(button.dataset.id);
 
-                toggleFavourite(
-                    destinationId
-                );
-            }
-        );
+            toggleFavourite(destinationId);
+        });
+
+        button.dataset.listenerAttached = "true";
     });
 }
-
 
 // =====================================================
 // PERSONAL TRAVEL DASHBOARD
@@ -1247,56 +1323,37 @@ function updateDashboard() {
     }
 
 
-    // -----------------------------------------------
-    // Next Trip
-    // -----------------------------------------------
+   // -----------------------------------------------
+// Next Trip
+// -----------------------------------------------
 
-    const dashboardNextTrip =
-        document.getElementById(
-            "dashboardNextTrip"
-        );
+const dashboardNextTrip =
+    document.getElementById(
+        "dashboardNextTrip"
+    );
 
+if (dashboardNextTrip) {
 
-    if (dashboardNextTrip) {
+    const savedTrips =
+        JSON.parse(
+            localStorage.getItem("trips")
+        ) || [];
+
+    if (savedTrips.length === 0) {
+
+        dashboardNextTrip.textContent =
+            "No trip planned yet.";
+
+    } else {
 
         const latestTrip =
-            document.querySelector(
-                ".trip-card"
-            );
+            savedTrips[savedTrips.length - 1];
 
-
-        if (latestTrip) {
-
-            const tripName =
-                latestTrip.querySelector("h3");
-
-
-            const destination =
-                latestTrip.querySelector("p");
-
-
-            if (
-                tripName &&
-                destination
-            ) {
-
-                dashboardNextTrip.textContent =
-                    `${tripName.textContent} — ${destination.textContent
-                        .replace(
-                            "Destination:",
-                            ""
-                        )
-                        .trim()}`;
-            }
-
-        } else {
-
-            dashboardNextTrip.textContent =
-                "No trip planned yet.";
-        }
+        dashboardNextTrip.textContent =
+            `${latestTrip.name} — ${latestTrip.destination}`;
     }
 }
-
+}
 
 // =====================================================
 // INITIALIZE DESTINATIONS
@@ -1307,6 +1364,7 @@ function updateDashboard() {
 // has been initialized.
 
 displayDestinations();
+displayFavouriteDestinations();
 
 
 // =====================================================

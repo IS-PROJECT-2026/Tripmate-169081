@@ -52,28 +52,35 @@ Demonstrate your workflow mechanics by embedding your screenshots below.
 ### A. Milestones and Issues
 *Provide a screenshot showing your active milestone(s) and the granular tracking issues linked directly to them.*
 
-[PASTE YOUR MILESTONE SCREENSHOT DIRECTLY HERE]
+<img width="940" height="467" alt="image" src="https://github.com/user-attachments/assets/fa347189-9583-4874-9a30-40c9aa0bc092" />
 
- **Caption:** The project milestones organize development into distinct phases, with individual issues assigned to each milestone to track the project's development tasks.
+
+ * **Caption:** The project milestones organize development into distinct phases, with individual issues assigned to each milestone to track the project's development tasks.
 
 ### B. Project Board
 *Provide a screenshot of your GitHub Project Board with your issues organized dynamically across columns (To Do, In Progress, Done).*
 
-[PASTE YOUR PROJECT BOARD SCREENSHOT DIRECTLY HERE]
+<img width="1916" height="780" alt="image" src="https://github.com/user-attachments/assets/728afec3-41f0-432e-81c3-5896d18477c1" />
+
 
 * **Caption:** The project board tracks development tasks across To Do, In Progress and Done showing the progression of issues throughout the project.
 
 ### C. Branching Architecture
 *Provide a screenshot showing your local or remote Git branch list, highlighting your use of conventional, issue-linked naming patterns (e.g., `feat/`, `fix/`, `style/`).*
 
-[PASTE YOUR BRANCHING SCREENSHOT DIRECTLY HERE]
+<img width="940" height="845" alt="image" src="https://github.com/user-attachments/assets/7ee13df2-def0-4016-bf5f-b33c2164947c" />
+
 
 * **Caption:** The branch structure demonstrates issue-linked development branches using consistent naming conventions such as `feat/` while keeping development isolated from the `main` branch.
 
 ### D. Pull Requests & Traceability
 *Provide a screenshot of a completed or open Pull Request (PR) on GitHub that clearly shows it is linked to a related development issue.*
 
-[PASTE YOUR PULL REQUEST SCREENSHOT DIRECTLY HERE]
+
+<img width="940" height="435" alt="image" src="https://github.com/user-attachments/assets/33d759a8-d109-469b-bfeb-3d624d1ffb11" />
+
+<img width="940" height="402" alt="image" src="https://github.com/user-attachments/assets/2c8c429a-523f-4a7a-98a0-5325a56c58f6" />
+
 
 * **Caption:** Pull Request #51 demonstrates traceability between the application bug-fix work and Issue #21, showing how the feature branch changes were reviewed before being merged into the main branch.
 
@@ -93,19 +100,27 @@ You must engineer **three merge conflicts**, each triggered by a **different cau
 
 #### Step 1: Generating the Clash
 
-[PASTE YOUR NAVBAR MERGE ATTEMPT SCREENSHOT HERE]
+
+
+<img width="940" height="425" alt="image" src="https://github.com/user-attachments/assets/59d76ade-0fda-411a-8614-0682bb36aa54" />
+
+
 
 * **Caption:** The merge attempt produced a conflict because the two branches contained different changes to the same line of the navbar code.
 
 #### Step 2: Inside the Code Editor (Conflict Markers)
 
-[PASTE YOUR NAVBAR CONFLICT MARKERS SCREENSHOT HERE]
+
+<img width="940" height="472" alt="image" src="https://github.com/user-attachments/assets/a1ccd3f7-1456-4fc6-a457-358afff1fa44" />
+
 
 * **Caption:** Git displayed conflict markers showing the competing versions from the two branches. I reviewed both changes and selected the correct version before removing the conflict markers.
 
 #### Step 3: Resolution & Clean Merge
 
-[PASTE YOUR NAVBAR CLEAN RESOLUTION SCREENSHOT HERE]
+
+<img width="940" height="468" alt="image" src="https://github.com/user-attachments/assets/828c819f-7173-4518-86eb-5142984f0e62" />
+
 
 * **Caption:** The conflicting navbar changes were resolved, the conflict markers were removed, and the corrected version was successfully committed and merged.
 
@@ -115,7 +130,9 @@ You must engineer **three merge conflicts**, each triggered by a **different cau
 
 **Why does this cause trigger a conflict?** A modify/delete conflict occurs when one branch modifies a file while another branch deletes the same file. Git cannot automatically determine whether the file should be kept with the modification or deleted, so manual resolution is required.
 
-[PASTE YOUR MODIFY/DELETE CONFLICT SCREENSHOT HERE]
+
+<img width="940" height="143" alt="image" src="https://github.com/user-attachments/assets/0e189528-2864-482a-ae2c-231bcb11af8c" />
+
 
 * **Caption:** The `conflict/3-modify` branch modified `conflict-test.txt`, while the `conflict/3-delete` branch deleted the same file, causing Git to report a modify/delete conflict during the merge.
 
@@ -125,7 +142,9 @@ You must engineer **three merge conflicts**, each triggered by a **different cau
 
 **Why does this cause trigger a conflict?** A rename/rename conflict occurs when two branches rename the same original file to different filenames. Git cannot automatically determine which new filename should be used, so the conflict must be resolved manually.
 
-[PASTE YOUR RENAME/RENAME CONFLICT SCREENSHOT HERE]
+
+<img width="940" height="109" alt="image" src="https://github.com/user-attachments/assets/f00f0c56-d17f-4e32-af9e-796630096bdd" />
+
 
 * **Caption:** The `conflict/rename-a` branch renamed `rename-test.txt` to `rename-a.txt`, while the `conflict/rename-b` branch renamed the same file to `rename-b.txt`, producing a rename/rename conflict during the merge.
 

@@ -43,20 +43,20 @@ function displayDestinations(destinationList = destinations) {
 
                 <div class="destination-actions">
 
-    <button
-        class="details-button"
-        data-id="${destination.id}">
-        View Details
-    </button>
+                    <button
+                        class="details-button"
+                        data-id="${destination.id}">
+                        View Details
+                    </button>
 
-    <button
-        class="favorite-button"
-        data-id="${destination.id}"
-        type="button">
-        ♡ Favourite
-    </button>
+                    <button
+                        class="favorite-button"
+                        data-id="${destination.id}"
+                        type="button">
+                        ♡ Favourite
+                    </button>
 
-</div>
+                </div>
             </div>
         `;
 
@@ -65,6 +65,7 @@ function displayDestinations(destinationList = destinations) {
 
     addDetailsListeners();
     addFavouriteListeners();
+    updateFavouriteButtons();
 }
 
 
@@ -73,16 +74,21 @@ function displayDestinations(destinationList = destinations) {
 // =====================================================
 
 function addDetailsListeners() {
-    const buttons = document.querySelectorAll(".details-button");
+
+    const buttons =
+        document.querySelectorAll(".details-button");
 
     buttons.forEach(button => {
+
         button.addEventListener("click", () => {
 
-            const destinationId = Number(button.dataset.id);
+            const destinationId =
+                Number(button.dataset.id);
 
-            const destination = destinations.find(
-                destination => destination.id === destinationId
-            );
+            const destination =
+                destinations.find(
+                    destination => destination.id === destinationId
+                );
 
             showDestinationDetails(destination);
         });
@@ -91,10 +97,15 @@ function addDetailsListeners() {
 
 
 function showDestinationDetails(destination) {
-    const modal = document.getElementById("destinationModal");
 
-    document.getElementById("modalImage").src = destination.image;
-    document.getElementById("modalImage").alt = destination.name;
+    const modal =
+        document.getElementById("destinationModal");
+
+    document.getElementById("modalImage").src =
+        destination.image;
+
+    document.getElementById("modalImage").alt =
+        destination.name;
 
     document.getElementById("modalTitle").textContent =
         destination.name;
@@ -116,7 +127,9 @@ function showDestinationDetails(destination) {
 
 
 function closeDestinationModal() {
-    const modal = document.getElementById("destinationModal");
+
+    const modal =
+        document.getElementById("destinationModal");
 
     modal.classList.remove("show");
 }
@@ -138,30 +151,39 @@ function filterDestinations() {
         budgetFilter.value;
 
 
-    const filteredDestinations = destinations.filter(destination => {
+    const filteredDestinations =
+        destinations.filter(destination => {
 
-        const matchesSearch =
-            destination.name.toLowerCase().includes(searchTerm) ||
-            destination.country.toLowerCase().includes(searchTerm) ||
-            destination.description.toLowerCase().includes(searchTerm);
+            const matchesSearch =
+                destination.name
+                    .toLowerCase()
+                    .includes(searchTerm) ||
+
+                destination.country
+                    .toLowerCase()
+                    .includes(searchTerm) ||
+
+                destination.description
+                    .toLowerCase()
+                    .includes(searchTerm);
 
 
-        const matchesCategory =
-            selectedCategory === "all" ||
-            destination.category === selectedCategory;
+            const matchesCategory =
+                selectedCategory === "all" ||
+                destination.category === selectedCategory;
 
 
-        const matchesBudget =
-            selectedBudget === "all" ||
-            destination.budget === selectedBudget;
+            const matchesBudget =
+                selectedBudget === "all" ||
+                destination.budget === selectedBudget;
 
 
-        return (
-            matchesSearch &&
-            matchesCategory &&
-            matchesBudget
-        );
-    });
+            return (
+                matchesSearch &&
+                matchesCategory &&
+                matchesBudget
+            );
+        });
 
 
     displayDestinations(filteredDestinations);
@@ -184,110 +206,133 @@ budgetFilter.addEventListener(
 );
 
 
-displayDestinations();
-
-
 // =====================================================
 // TRIP CREATION
 // =====================================================
 
-const tripForm = document.getElementById("tripForm");
-const tripPreview = document.getElementById("tripPreview");
-const tripMessage = document.getElementById("tripMessage");
+const tripForm =
+    document.getElementById("tripForm");
+
+const tripPreview =
+    document.getElementById("tripPreview");
+
+const tripMessage =
+    document.getElementById("tripMessage");
 
 
-tripForm.addEventListener("submit", function (event) {
+tripForm.addEventListener(
+    "submit",
+    function (event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const tripName =
-        document.getElementById("tripName").value.trim();
+        const tripName =
+            document
+                .getElementById("tripName")
+                .value
+                .trim();
 
-    const tripDestination =
-        document.getElementById("tripDestination").value;
+        const tripDestination =
+            document.getElementById(
+                "tripDestination"
+            ).value;
 
-    const startDate =
-        document.getElementById("startDate").value;
+        const startDate =
+            document.getElementById(
+                "startDate"
+            ).value;
 
-    const endDate =
-        document.getElementById("endDate").value;
+        const endDate =
+            document.getElementById(
+                "endDate"
+            ).value;
 
 
-    // Validate dates
+        // Validate dates
 
-    if (new Date(endDate) < new Date(startDate)) {
+        if (new Date(endDate) < new Date(startDate)) {
+
+            tripMessage.textContent =
+                "End date cannot be before the start date.";
+
+            return;
+        }
+
+
+        const start =
+            new Date(startDate);
+
+        const end =
+            new Date(endDate);
+
+
+        // Calculate trip duration
+
+        const differenceInTime =
+            end - start;
+
+        const differenceInDays =
+            Math.ceil(
+                differenceInTime /
+                (1000 * 60 * 60 * 24)
+            ) + 1;
+
+
+        // Generate itinerary
+
+        generateItinerary(
+            start,
+            differenceInDays
+        );
+
+
+        // Display trip preview
+
+        tripPreview.innerHTML = `
+            <div class="trip-card">
+
+                <h3>${tripName}</h3>
+
+                <p>
+                    <strong>Destination:</strong>
+                    ${tripDestination}
+                </p>
+
+                <p>
+                    <strong>Dates:</strong>
+                    ${startDate} to ${endDate}
+                </p>
+
+                <p class="trip-duration">
+                    Duration: ${differenceInDays} day(s)
+                </p>
+
+            </div>
+        `;
+
 
         tripMessage.textContent =
-            "End date cannot be before the start date.";
+            "Trip created successfully!";
 
-        return;
+
+        tripForm.reset();
     }
-
-
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-
-    // Calculate trip duration
-
-    const differenceInTime = end - start;
-
-    const differenceInDays =
-        Math.ceil(
-            differenceInTime /
-            (1000 * 60 * 60 * 24)
-        ) + 1;
-
-
-    // Generate itinerary
-
-    generateItinerary(
-        start,
-        differenceInDays
-    );
-
-
-    // Display trip preview
-
-    tripPreview.innerHTML = `
-        <div class="trip-card">
-
-            <h3>${tripName}</h3>
-
-            <p>
-                <strong>Destination:</strong>
-                ${tripDestination}
-            </p>
-
-            <p>
-                <strong>Dates:</strong>
-                ${startDate} to ${endDate}
-            </p>
-
-            <p class="trip-duration">
-                Duration: ${differenceInDays} day(s)
-            </p>
-
-        </div>
-    `;
-
-
-    tripMessage.textContent =
-        "Trip created successfully!";
-
-
-    tripForm.reset();
-});
+);
 
 
 // =====================================================
 // ITINERARY GENERATION
 // =====================================================
 
-function generateItinerary(startDate, numberOfDays) {
+function generateItinerary(
+    startDate,
+    numberOfDays
+) {
 
     const itineraryContainer =
-        document.getElementById("itineraryContainer");
+        document.getElementById(
+            "itineraryContainer"
+        );
 
 
     itineraryContainer.innerHTML = `
@@ -301,14 +346,19 @@ function generateItinerary(startDate, numberOfDays) {
         );
 
 
-    for (let day = 1; day <= numberOfDays; day++) {
+    for (
+        let day = 1;
+        day <= numberOfDays;
+        day++
+    ) {
 
         const currentDate =
             new Date(startDate);
 
 
         currentDate.setDate(
-            currentDate.getDate() + (day - 1)
+            currentDate.getDate() +
+            (day - 1)
         );
 
 
@@ -407,7 +457,10 @@ function addActivityListeners() {
 // DISPLAY ACTIVITY
 // =====================================================
 
-function addActivity(day, activity) {
+function addActivity(
+    day,
+    activity
+) {
 
     const activityList =
         document.getElementById(
@@ -519,50 +572,66 @@ function addActivityActionListeners(
     );
 
 
-   // Delete activity
+    // Delete activity
 
-deleteButton.addEventListener(
-    "click",
-    () => {
+    deleteButton.addEventListener(
+        "click",
+        () => {
 
-        const activityList =
-            activityItem.parentElement;
+            const activityList =
+                activityItem.parentElement;
 
-        const confirmed =
-            confirm(
-                "Are you sure you want to delete this activity?"
-            );
 
-        if (!confirmed) {
-            return;
+            const confirmed =
+                confirm(
+                    "Are you sure you want to delete this activity?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            activityItem.remove();
+
+
+            if (
+                activityList &&
+                activityList.querySelectorAll(
+                    ".activity-item"
+                ).length === 0
+            ) {
+
+                activityList.innerHTML = `
+                    <p class="no-activities">
+                        No activities added yet.
+                    </p>
+                `;
+            }
         }
-
-        activityItem.remove();
-
-        if (
-            activityList &&
-            activityList.querySelectorAll(".activity-item").length === 0
-        ) {
-
-            activityList.innerHTML = `
-                <p class="no-activities">
-                    No activities added yet.
-                </p>
-            `;
-        }
-    }
-);
+    );
 }
-// Packing Checklist
+
+
+// =====================================================
+// PACKING CHECKLIST
+// =====================================================
 
 const packingItemInput =
-    document.getElementById("packingItem");
+    document.getElementById(
+        "packingItem"
+    );
 
 const addPackingItemButton =
-    document.getElementById("addPackingItem");
+    document.getElementById(
+        "addPackingItem"
+    );
 
 const packingList =
-    document.getElementById("packingList");
+    document.getElementById(
+        "packingList"
+    );
 
 
 addPackingItemButton.addEventListener(
@@ -572,33 +641,45 @@ addPackingItemButton.addEventListener(
         const itemName =
             packingItemInput.value.trim();
 
+
         if (itemName === "") {
             return;
         }
 
-        addCustomPackingItem(itemName);
+
+        addCustomPackingItem(
+            itemName
+        );
+
 
         packingItemInput.value = "";
+
         packingItemInput.focus();
     }
 );
 
 
-function addCustomPackingItem(itemName) {
+function addCustomPackingItem(
+    itemName
+) {
 
     const listItem =
         document.createElement("li");
 
+
     listItem.className =
         "packing-item custom-packing-item";
 
+
     listItem.innerHTML = `
         <label>
+
             <input type="checkbox">
 
             <span class="packing-item-name">
                 ${itemName}
             </span>
+
         </label>
 
         <div class="packing-actions">
@@ -618,7 +699,10 @@ function addCustomPackingItem(itemName) {
         </div>
     `;
 
-    packingList.appendChild(listItem);
+
+    packingList.appendChild(
+        listItem
+    );
 }
 
 
@@ -627,7 +711,10 @@ packingList.addEventListener(
     function (event) {
 
         const packingItem =
-            event.target.closest(".packing-item");
+            event.target.closest(
+                ".packing-item"
+            );
+
 
         if (!packingItem) {
             return;
@@ -661,14 +748,17 @@ packingList.addEventListener(
                     ".packing-item-name"
                 );
 
+
             const currentName =
                 itemName.textContent.trim();
+
 
             const updatedName =
                 prompt(
                     "Edit packing item:",
                     currentName
                 );
+
 
             if (
                 updatedName === null ||
@@ -677,18 +767,27 @@ packingList.addEventListener(
                 return;
             }
 
+
             itemName.textContent =
                 updatedName.trim();
         }
     }
 );
-// Trip Budget Calculator
+
+
+// =====================================================
+// TRIP BUDGET CALCULATOR
+// =====================================================
 
 const calculateBudgetButton =
-    document.getElementById("calculateBudget");
+    document.getElementById(
+        "calculateBudget"
+    );
 
 const budgetTotal =
-    document.getElementById("budgetTotal");
+    document.getElementById(
+        "budgetTotal"
+    );
 
 
 calculateBudgetButton.addEventListener(
@@ -702,12 +801,14 @@ calculateBudgetButton.addEventListener(
                 ).value
             ) || 0;
 
+
         const food =
             Number(
                 document.getElementById(
                     "foodCost"
                 ).value
             ) || 0;
+
 
         const transport =
             Number(
@@ -716,12 +817,14 @@ calculateBudgetButton.addEventListener(
                 ).value
             ) || 0;
 
+
         const activities =
             Number(
                 document.getElementById(
                     "activitiesCost"
                 ).value
             ) || 0;
+
 
         const other =
             Number(
@@ -743,72 +846,147 @@ calculateBudgetButton.addEventListener(
             `KSh ${total.toLocaleString()}`;
     }
 );
-// Favourite Destinations
-
-let favouriteDestinations = [];
 
 
-function toggleFavourite(destinationId) {
+// =====================================================
+// FAVOURITE DESTINATIONS
+// =====================================================
+
+// Load saved favourites from localStorage
+
+let favouriteDestinations =
+    JSON.parse(
+        localStorage.getItem(
+            "favouriteDestinations"
+        )
+    ) || [];
+
+
+// =====================================================
+// TOGGLE FAVOURITE
+// =====================================================
+
+function toggleFavourite(
+    destinationId
+) {
 
     const existingIndex =
-        favouriteDestinations.indexOf(destinationId);
+        favouriteDestinations.indexOf(
+            destinationId
+        );
+
 
     if (existingIndex === -1) {
 
-        favouriteDestinations.push(destinationId);
+        favouriteDestinations.push(
+            destinationId
+        );
 
     } else {
 
-        favouriteDestinations.splice(existingIndex, 1);
-
+        favouriteDestinations.splice(
+            existingIndex,
+            1
+        );
     }
+
+
+    // Save favourites to localStorage
+
+    localStorage.setItem(
+        "favouriteDestinations",
+        JSON.stringify(
+            favouriteDestinations
+        )
+    );
+
 
     updateFavouriteButtons();
 }
 
 
+// =====================================================
+// UPDATE FAVOURITE BUTTONS
+// =====================================================
+
 function updateFavouriteButtons() {
 
     const buttons =
-        document.querySelectorAll(".favorite-button");
+        document.querySelectorAll(
+            ".favorite-button"
+        );
+
 
     buttons.forEach(button => {
 
         const destinationId =
             Number(button.dataset.id);
 
-        if (favouriteDestinations.includes(destinationId)) {
 
-            button.textContent = "♥ Favourited";
-            button.classList.add("favourited");
+        if (
+            favouriteDestinations.includes(
+                destinationId
+            )
+        ) {
+
+            button.textContent =
+                "♥ Favourited";
+
+            button.classList.add(
+                "favourited"
+            );
 
         } else {
 
-            button.textContent = "♡ Favourite";
-            button.classList.remove("favourited");
+            button.textContent =
+                "♡ Favourite";
 
+            button.classList.remove(
+                "favourited"
+            );
         }
-
     });
 }
 
+
+// =====================================================
+// ADD FAVOURITE LISTENERS
+// =====================================================
 
 function addFavouriteListeners() {
 
     const buttons =
-        document.querySelectorAll(".favorite-button");
+        document.querySelectorAll(
+            ".favorite-button"
+        );
+
 
     buttons.forEach(button => {
 
-        button.addEventListener("click", () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            const destinationId =
-                Number(button.dataset.id);
+                const destinationId =
+                    Number(
+                        button.dataset.id
+                    );
 
-            toggleFavourite(destinationId);
 
-        });
-
+                toggleFavourite(
+                    destinationId
+                );
+            }
+        );
     });
-
 }
+
+
+// =====================================================
+// INITIALIZE DESTINATIONS
+// =====================================================
+// IMPORTANT:
+// This MUST be at the bottom so that
+// favouriteDestinations has already been initialized.
+
+displayDestinations();

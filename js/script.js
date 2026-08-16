@@ -378,30 +378,60 @@ tripForm.addEventListener(
         // Display trip preview
 
         tripPreview.innerHTML = `
+    <div class="trip-summary-card">
 
-            <div class="trip-card">
+        <div class="trip-summary-header">
+            <h3>${tripName}</h3>
+            <span class="trip-status">Planned</span>
+        </div>
 
-                <h3>
-                    ${tripName}
-                </h3>
+        <div class="trip-summary-details">
 
-                <p>
-                    <strong>Destination:</strong>
-                    ${tripDestination}
-                </p>
-
-                <p>
-                    <strong>Dates:</strong>
-                    ${startDate} to ${endDate}
-                </p>
-
-                <p class="trip-duration">
-                    Duration:
-                    ${differenceInDays} day(s)
-                </p>
-
+            <div class="trip-summary-item">
+                <strong>📍 Destination</strong>
+                <span>${tripDestination}</span>
             </div>
-        `;
+
+            <div class="trip-summary-item">
+                <strong>📅 Start Date</strong>
+                <span>${startDate}</span>
+            </div>
+
+            <div class="trip-summary-item">
+                <strong>📅 End Date</strong>
+                <span>${endDate}</span>
+            </div>
+
+            <div class="trip-summary-item">
+                <strong>⏱️ Duration</strong>
+                <span>${differenceInDays} day(s)</span>
+            </div>
+
+            <div class="trip-summary-item">
+                <strong>💰 Budget</strong>
+                <span id="tripSummaryBudget">
+                    ${budgetTotal.textContent}
+                </span>
+            </div>
+
+        </div>
+
+        <div class="trip-summary-footer">
+
+            <p>
+                Your trip has been successfully planned!
+            </p>
+
+            <a
+                href="#itinerary"
+                class="trip-summary-button">
+                View Itinerary
+            </a>
+
+        </div>
+
+    </div>
+`;
 
 
         tripMessage.textContent =
@@ -1286,7 +1316,9 @@ displayDestinations();
 document.addEventListener(
     "DOMContentLoaded",
     updateDashboard
+    
 );
+loadTripSummary();
 
 
 // =====================================================
@@ -1307,3 +1339,141 @@ if (packingList) {
 // =====================================================
 
 updateDashboard();
+// =====================================================
+// LOAD TRIP SUMMARY
+// =====================================================
+
+function loadTripSummary() {
+
+    const tripPreview =
+        document.getElementById("tripPreview");
+
+    if (!tripPreview) {
+        return;
+    }
+
+    const savedTrips =
+        JSON.parse(
+            localStorage.getItem("trips")
+        ) || [];
+
+    // No saved trips
+    if (savedTrips.length === 0) {
+
+        tripPreview.innerHTML = `
+            <div class="trip-summary-empty">
+
+                <h3>No Trip Created Yet</h3>
+
+                <p>
+                    Create a trip above to see your trip summary here.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    // Get the most recently created trip
+    const latestTrip =
+        savedTrips[savedTrips.length - 1];
+
+    tripPreview.innerHTML = `
+        <div class="trip-summary-card">
+
+            <div class="trip-summary-header">
+
+                <h3>
+                    ${latestTrip.name}
+                </h3>
+
+                <span class="trip-status">
+                    Planned
+                </span>
+
+            </div>
+
+            <div class="trip-summary-details">
+
+                <div class="trip-summary-item">
+
+                    <strong>
+                        📍 Destination
+                    </strong>
+
+                    <span>
+                        ${latestTrip.destination}
+                    </span>
+
+                </div>
+
+                <div class="trip-summary-item">
+
+                    <strong>
+                        📅 Start Date
+                    </strong>
+
+                    <span>
+                        ${latestTrip.startDate}
+                    </span>
+
+                </div>
+
+                <div class="trip-summary-item">
+
+                    <strong>
+                        📅 End Date
+                    </strong>
+
+                    <span>
+                        ${latestTrip.endDate}
+                    </span>
+
+                </div>
+
+                <div class="trip-summary-item">
+
+                    <strong>
+                        ⏱️ Duration
+                    </strong>
+
+                    <span>
+                        ${latestTrip.duration} day(s)
+                    </span>
+
+                </div>
+
+                <div class="trip-summary-item">
+
+                    <strong>
+                        💰 Budget
+                    </strong>
+
+                    <span>
+                        ${document.getElementById("budgetTotal")
+                            ? document.getElementById("budgetTotal").textContent
+                            : "KSh 0"}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="trip-summary-footer">
+
+                <p>
+                    Your trip has been successfully planned!
+                </p>
+
+                <a
+                    href="#itinerary"
+                    class="trip-summary-button">
+                    View Itinerary
+                </a>
+
+            </div>
+
+        </div>
+    `;
+}

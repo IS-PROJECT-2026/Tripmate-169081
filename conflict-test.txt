@@ -1,1 +1,1 @@
-This file is used to demonstrate merge conflict resolution.
+This file was modified on the conflict branch.

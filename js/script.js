@@ -5,58 +5,95 @@ const budgetFilter = document.getElementById("budgetFilter");
 
 
 // =====================================================
+// SAVED TRIPS
+// =====================================================
+
+let trips =
+    JSON.parse(
+        localStorage.getItem("trips")
+    ) || [];
+
+
+// =====================================================
 // DESTINATIONS
 // =====================================================
 
 function displayDestinations(destinationList = destinations) {
+
     destinationGrid.innerHTML = "";
 
     if (destinationList.length === 0) {
+
         destinationGrid.innerHTML = `
             <p class="no-results">
                 No destinations found. Try a different search or filter.
             </p>
         `;
+
         return;
     }
 
     destinationList.forEach(destination => {
-        const card = document.createElement("article");
 
-        card.className = "destination-card";
-        card.dataset.id = destination.id;
+        const card =
+            document.createElement("article");
+
+        card.className =
+            "destination-card";
+
+        card.dataset.id =
+            destination.id;
 
         card.innerHTML = `
             <div class="destination-image">
-                <img src="${destination.image}" alt="${destination.name}">
+
+                <img
+                    src="${destination.image}"
+                    alt="${destination.name}"
+                >
+
             </div>
 
             <div class="destination-info">
+
                 <h3>${destination.name}</h3>
 
-                <p>${destination.description}</p>
+                <p>
+                    ${destination.description}
+                </p>
 
                 <div class="destination-meta">
-                    <span>${destination.category}</span>
-                    <span>${destination.budget}</span>
+
+                    <span>
+                        ${destination.category}
+                    </span>
+
+                    <span>
+                        ${destination.budget}
+                    </span>
+
                 </div>
 
                 <div class="destination-actions">
 
                     <button
                         class="details-button"
-                        data-id="${destination.id}">
+                        data-id="${destination.id}"
+                        type="button"
+                    >
                         View Details
                     </button>
 
                     <button
                         class="favorite-button"
                         data-id="${destination.id}"
-                        type="button">
+                        type="button"
+                    >
                         ♡ Favourite
                     </button>
 
                 </div>
+
             </div>
         `;
 
@@ -80,18 +117,24 @@ function addDetailsListeners() {
 
     buttons.forEach(button => {
 
-        button.addEventListener("click", () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            const destinationId =
-                Number(button.dataset.id);
+                const destinationId =
+                    Number(button.dataset.id);
 
-            const destination =
-                destinations.find(
-                    destination => destination.id === destinationId
-                );
+                const destination =
+                    destinations.find(
+                        destination =>
+                            destination.id === destinationId
+                    );
 
-            showDestinationDetails(destination);
-        });
+                if (destination) {
+                    showDestinationDetails(destination);
+                }
+            }
+        );
     });
 }
 
@@ -142,7 +185,9 @@ function closeDestinationModal() {
 function filterDestinations() {
 
     const searchTerm =
-        destinationSearch.value.toLowerCase().trim();
+        destinationSearch.value
+            .toLowerCase()
+            .trim();
 
     const selectedCategory =
         categoryFilter.value;
@@ -186,7 +231,9 @@ function filterDestinations() {
         });
 
 
-    displayDestinations(filteredDestinations);
+    displayDestinations(
+        filteredDestinations
+    );
 }
 
 
@@ -226,21 +273,25 @@ tripForm.addEventListener(
 
         event.preventDefault();
 
+
         const tripName =
             document
                 .getElementById("tripName")
                 .value
                 .trim();
 
+
         const tripDestination =
             document.getElementById(
                 "tripDestination"
             ).value;
 
+
         const startDate =
             document.getElementById(
                 "startDate"
             ).value;
+
 
         const endDate =
             document.getElementById(
@@ -250,7 +301,10 @@ tripForm.addEventListener(
 
         // Validate dates
 
-        if (new Date(endDate) < new Date(startDate)) {
+        if (
+            new Date(endDate) <
+            new Date(startDate)
+        ) {
 
             tripMessage.textContent =
                 "End date cannot be before the start date.";
@@ -271,11 +325,46 @@ tripForm.addEventListener(
         const differenceInTime =
             end - start;
 
+
         const differenceInDays =
             Math.ceil(
                 differenceInTime /
                 (1000 * 60 * 60 * 24)
             ) + 1;
+
+
+        // Create trip object
+
+        const trip = {
+
+            name:
+                tripName,
+
+            destination:
+                tripDestination,
+
+            startDate:
+                startDate,
+
+            endDate:
+                endDate,
+
+            duration:
+                differenceInDays
+        };
+
+
+        // Add trip to saved trips
+
+        trips.push(trip);
+
+
+        // Save trips to localStorage
+
+        localStorage.setItem(
+            "trips",
+            JSON.stringify(trips)
+        );
 
 
         // Generate itinerary
@@ -289,9 +378,12 @@ tripForm.addEventListener(
         // Display trip preview
 
         tripPreview.innerHTML = `
+
             <div class="trip-card">
 
-                <h3>${tripName}</h3>
+                <h3>
+                    ${tripName}
+                </h3>
 
                 <p>
                     <strong>Destination:</strong>
@@ -304,7 +396,8 @@ tripForm.addEventListener(
                 </p>
 
                 <p class="trip-duration">
-                    Duration: ${differenceInDays} day(s)
+                    Duration:
+                    ${differenceInDays} day(s)
                 </p>
 
             </div>
@@ -316,6 +409,11 @@ tripForm.addEventListener(
 
 
         tripForm.reset();
+
+
+        // Update dashboard
+
+        updateDashboard();
     }
 );
 
@@ -374,9 +472,12 @@ function generateItinerary(
 
 
         itinerary.innerHTML += `
+
             <div class="itinerary-day">
 
-                <h3>Day ${day}</h3>
+                <h3>
+                    Day ${day}
+                </h3>
 
                 <p class="itinerary-date">
                     ${formattedDate}
@@ -384,13 +485,16 @@ function generateItinerary(
 
                 <button
                     class="add-activity-button"
-                    data-day="${day}">
+                    data-day="${day}"
+                    type="button"
+                >
                     + Add Activity
                 </button>
 
                 <div
                     class="activity-list"
-                    id="activities-${day}">
+                    id="activities-${day}"
+                >
 
                     <p class="no-activities">
                         No activities added yet.
@@ -439,6 +543,7 @@ function addActivityListeners() {
                     activity === null ||
                     activity.trim() === ""
                 ) {
+
                     return;
                 }
 
@@ -488,6 +593,7 @@ function addActivity(
 
 
     activityItem.innerHTML = `
+
         <span class="activity-name">
             ${activity}
         </span>
@@ -495,12 +601,16 @@ function addActivity(
         <div class="activity-actions">
 
             <button
-                class="edit-activity-button">
+                class="edit-activity-button"
+                type="button"
+            >
                 Edit
             </button>
 
             <button
-                class="delete-activity-button">
+                class="delete-activity-button"
+                type="button"
+            >
                 Delete
             </button>
 
@@ -562,6 +672,7 @@ function addActivityActionListeners(
                 updatedActivity === null ||
                 updatedActivity.trim() === ""
             ) {
+
                 return;
             }
 
@@ -655,6 +766,9 @@ addPackingItemButton.addEventListener(
         packingItemInput.value = "";
 
         packingItemInput.focus();
+
+
+        updateDashboard();
     }
 );
 
@@ -672,6 +786,7 @@ function addCustomPackingItem(
 
 
     listItem.innerHTML = `
+
         <label>
 
             <input type="checkbox">
@@ -686,13 +801,15 @@ function addCustomPackingItem(
 
             <button
                 type="button"
-                class="edit-packing-item">
+                class="edit-packing-item"
+            >
                 Edit
             </button>
 
             <button
                 type="button"
-                class="remove-packing-item">
+                class="remove-packing-item"
+            >
                 Remove
             </button>
 
@@ -731,6 +848,8 @@ packingList.addEventListener(
 
             packingItem.remove();
 
+            updateDashboard();
+
             return;
         }
 
@@ -764,6 +883,7 @@ packingList.addEventListener(
                 updatedName === null ||
                 updatedName.trim() === ""
             ) {
+
                 return;
             }
 
@@ -844,6 +964,9 @@ calculateBudgetButton.addEventListener(
 
         budgetTotal.textContent =
             `KSh ${total.toLocaleString()}`;
+
+
+        updateDashboard();
     }
 );
 
@@ -852,7 +975,7 @@ calculateBudgetButton.addEventListener(
 // FAVOURITE DESTINATIONS
 // =====================================================
 
-// Load saved favourites from localStorage
+// Load saved favourites
 
 let favouriteDestinations =
     JSON.parse(
@@ -891,8 +1014,6 @@ function toggleFavourite(
     }
 
 
-    // Save favourites to localStorage
-
     localStorage.setItem(
         "favouriteDestinations",
         JSON.stringify(
@@ -902,6 +1023,8 @@ function toggleFavourite(
 
 
     updateFavouriteButtons();
+
+    updateDashboard();
 }
 
 
@@ -983,10 +1106,204 @@ function addFavouriteListeners() {
 
 
 // =====================================================
+// PERSONAL TRAVEL DASHBOARD
+// =====================================================
+
+function updateDashboard() {
+
+    // -----------------------------------------------
+    // Favourite destinations
+    // -----------------------------------------------
+
+    const dashboardFavourites =
+        document.getElementById(
+            "dashboardFavourites"
+        );
+
+
+    if (dashboardFavourites) {
+
+        dashboardFavourites.textContent =
+            favouriteDestinations.length;
+    }
+
+
+    // -----------------------------------------------
+    // My Trips
+    // -----------------------------------------------
+
+    const dashboardTrips =
+        document.getElementById(
+            "dashboardTrips"
+        );
+
+
+    if (dashboardTrips) {
+
+        dashboardTrips.textContent =
+            trips.length;
+    }
+
+
+    // -----------------------------------------------
+    // Trip Budget
+    // -----------------------------------------------
+
+    const dashboardBudget =
+        document.getElementById(
+            "dashboardBudget"
+        );
+
+
+    if (dashboardBudget) {
+
+        const budgetText =
+            document.getElementById(
+                "budgetTotal"
+            );
+
+
+        if (budgetText) {
+
+            dashboardBudget.textContent =
+                budgetText.textContent;
+        }
+    }
+
+
+    // -----------------------------------------------
+    // Packing Progress
+    // -----------------------------------------------
+
+    const dashboardPacking =
+        document.getElementById(
+            "dashboardPacking"
+        );
+
+
+    if (dashboardPacking) {
+
+        const packingItems =
+            document.querySelectorAll(
+                "#packingList input[type='checkbox']"
+            );
+
+
+        const checkedItems =
+            document.querySelectorAll(
+                "#packingList input[type='checkbox']:checked"
+            );
+
+
+        if (packingItems.length === 0) {
+
+            dashboardPacking.textContent =
+                "0%";
+
+        } else {
+
+            const percentage =
+                Math.round(
+                    (
+                        checkedItems.length /
+                        packingItems.length
+                    ) * 100
+                );
+
+
+            dashboardPacking.textContent =
+                `${percentage}%`;
+        }
+    }
+
+
+    // -----------------------------------------------
+    // Next Trip
+    // -----------------------------------------------
+
+    const dashboardNextTrip =
+        document.getElementById(
+            "dashboardNextTrip"
+        );
+
+
+    if (dashboardNextTrip) {
+
+        const latestTrip =
+            document.querySelector(
+                ".trip-card"
+            );
+
+
+        if (latestTrip) {
+
+            const tripName =
+                latestTrip.querySelector("h3");
+
+
+            const destination =
+                latestTrip.querySelector("p");
+
+
+            if (
+                tripName &&
+                destination
+            ) {
+
+                dashboardNextTrip.textContent =
+                    `${tripName.textContent} — ${destination.textContent
+                        .replace(
+                            "Destination:",
+                            ""
+                        )
+                        .trim()}`;
+            }
+
+        } else {
+
+            dashboardNextTrip.textContent =
+                "No trip planned yet.";
+        }
+    }
+}
+
+
+// =====================================================
 // INITIALIZE DESTINATIONS
 // =====================================================
+
 // IMPORTANT:
-// This MUST be at the bottom so that
-// favouriteDestinations has already been initialized.
+// This must happen after favouriteDestinations
+// has been initialized.
 
 displayDestinations();
+
+
+// =====================================================
+// DASHBOARD INITIALIZATION
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    updateDashboard
+);
+
+
+// =====================================================
+// UPDATE DASHBOARD WHEN PACKING CHANGES
+// =====================================================
+
+if (packingList) {
+
+    packingList.addEventListener(
+        "change",
+        updateDashboard
+    );
+}
+
+
+// =====================================================
+// INITIAL DASHBOARD UPDATE
+// =====================================================
+
+updateDashboard();
